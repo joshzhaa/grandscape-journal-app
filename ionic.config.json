@@ -1,0 +1,7 @@
+{
+  "name": "Grandscape",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
