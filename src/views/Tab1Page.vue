@@ -32,20 +32,41 @@
           <ion-buttons slot="start">
             <ion-button @click="cancel()">Cancel</ion-button>
           </ion-buttons>
-          <ion-title>Compose Journal Entry</ion-title>
+          <ion-title>Compose Entry</ion-title>
           <ion-buttons slot="end">
             <ion-button :strong="true" @click="confirm()">Confirm</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
+
       <ion-content class="ion-padding">
         <ion-item>
           <ion-input
             label="Title"
             label-placement="stacked"
-            ref="input"
+            ref="title"
             type="text"
             placeholder="Your Journal Entry Title"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Date"
+            label-placement="stacked"
+            ref="date"
+            type="text"
+            placeholder="Today's Date"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-input
+            label="Body"
+            label-placement="stacked"
+            ref="body"
+            type="text"
+            placeholder="Main Body of Your Journal Entry"
           ></ion-input>
         </ion-item>
       </ion-content>
@@ -64,6 +85,7 @@
     IonHeader,
     IonToolbar,
     IonTitle,
+    IonButtons,
     IonButton,
     IonModal,
     IonInput,
@@ -75,20 +97,21 @@
 
   const journalEntries = ref([{ date: '1/1/1990', title: 'Welcome to Grandscape' }]);
 
-  // supports the modal entry composition menu
+  // supports the modal composition menu
   const modal = ref();
-  const input = ref();
+  const title = ref();
+  const date = ref();
+  const body = ref();
 
   const cancel = () => modal.value.$el.dismiss(null, 'cancel');
 
   const confirm = () => {
-    const name = input.value.$el.value;
+    const newEntry = {};
+    newEntry.date = date.value.$el.value;
+    newEntry.title = title.value.$el.value;
+    journalEntries.value = [newEntry, ...journalEntries.value];
+    const name = title.value.$el.value;
     modal.value.$el.dismiss(name, 'confirm');
   };
 
-  const onWillDismiss = (ev: CustomEvent<OverlayEventDetail>) => {
-    if (ev.detail.role === 'confirm') {
-      message.value = `Hello, ${ev.detail.data}!`;
-    }
-  };
 </script>
