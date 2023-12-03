@@ -46,7 +46,6 @@
           ></ion-textarea>
         </ion-item>
 
-        <div style="height:75px"></div>
 
         <ion-fab vertical="bottom" horizontal="center" slot="fixed">
           <ion-fab-button @click="alert()">
@@ -76,6 +75,9 @@
     IonButton,
     IonModal,
     IonInput,
+    IonTextarea,
+    IonFab,
+    IonFabButton,
   } from '@ionic/vue';
 
   import { create, camera } from 'ionicons/icons';
