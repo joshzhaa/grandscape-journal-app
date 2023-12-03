@@ -14,63 +14,50 @@
         </ion-toolbar>
       </ion-header>
 
-      <ion-list :inset="true">
-        <ion-item v-for="entry in journalEntries">
-          <ion-label>({{ entry.date }}) {{ entry.title }}</ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-
-    <ion-button id="open-modal" expand="block">
-      <ion-icon :icon="create"></ion-icon>
-      New Journal Entry
-    </ion-button>
-
-    <ion-modal ref="modal" trigger="open-modal" @willDismiss="onWillDismiss">
-      <ion-header>
-        <ion-toolbar>
-          <ion-buttons slot="start">
-            <ion-button @click="cancel()">Cancel</ion-button>
-          </ion-buttons>
-          <ion-title>Compose Entry</ion-title>
-          <ion-buttons slot="end">
-            <ion-button :strong="true" @click="confirm()">Confirm</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-content class="ion-padding">
+      <ion-list>
         <ion-item>
           <ion-input
             label="Title"
-            label-placement="stacked"
-            ref="title"
+            label-placement="fixed"
             type="text"
-            placeholder="Your Journal Entry Title"
+            placeholder="Your journal entry's title"
+            v-model="title"
           ></ion-input>
         </ion-item>
 
         <ion-item>
           <ion-input
             label="Date"
-            label-placement="stacked"
-            ref="date"
+            label-placement="fixed"
             type="text"
-            placeholder="Today's Date"
+            placeholder="Today's date"
+            v-model="date"
           ></ion-input>
         </ion-item>
 
         <ion-item>
-          <ion-input
+          <ion-textarea
             label="Body"
             label-placement="stacked"
+            placeholder="Main body of your journal entry"
+            :auto-grow="true"
+            rows="10"
             ref="body"
-            type="text"
-            placeholder="Main Body of Your Journal Entry"
-          ></ion-input>
+          ></ion-textarea>
         </ion-item>
-      </ion-content>
-    </ion-modal>
+
+        <div style="height:75px"></div>
+
+        <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+          <ion-fab-button @click="alert()">
+            <ion-icon :icon="camera"></ion-icon>
+          </ion-fab-button>
+        </ion-fab>
+
+      </ion-list>
+
+      <ion-button @click="confirm()" vertical="bottom" shape="round" expand="full">Confirm</ion-button>
+    </ion-content>
 
   </ion-page>
 </template>
@@ -91,7 +78,7 @@
     IonInput,
   } from '@ionic/vue';
 
-  import { create } from 'ionicons/icons';
+  import { create, camera } from 'ionicons/icons';
   import { OverlayEventDetail } from '@ionic/core/components';
   import { ref } from 'vue';
   
@@ -103,20 +90,18 @@
   const { journalEntries, saveEntry } = useJournalEntries();
 
   // supports the modal composition menu
-  const modal = ref();
   const title = ref();
   const date = ref();
   const body = ref();
 
-  const cancel = () => modal.value.$el.dismiss(null, 'cancel');
-
   const confirm = () => {
+    console.log(title.value, body.value.value);
     const newEntry: JournalEntry = {
-      date: date.value.$el.value,
-      title: title.value.$el.value,
+      date: date.value,
+      title: title.value,
+      body: body.value.value,
     };
     saveEntry(newEntry);
-    modal.value.$el.dismiss(title.value.$el.value, 'confirm');
   };
 
 </script>

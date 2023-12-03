@@ -1,6 +1,6 @@
 import { ref, onMounted, watch } from 'vue';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { isPlatform } from '@ionic/vue';
 import { Capacitor } from '@capacitor/core';
@@ -46,6 +46,8 @@ export const useJournalEntries = () => {
     newEntry.dirname = `entry${journalEntries.value.length}`;
     journalEntries.value = [newEntry, ...journalEntries.value];
 
+    console.log(journalEntries.value);
+    console.log(newEntry);
     // write to device Filesystem
     await Filesystem.writeFile({
       path: `${newEntry.dirname}/metadata.json`,
