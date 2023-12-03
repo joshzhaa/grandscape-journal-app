@@ -26,13 +26,21 @@ export interface JournalEntry {
 
 export const useJournalEntries = () => {
   const journalEntries = ref<JournalEntry>([]);
+  const JOURNAL_KEY = 'journalEntries';
+  // save list of journalEntries to Preferences reactively
   const cacheEntries = () => {
     Preferences.set({
-      key: 'journalEntries',
+      key: JOURNAL_KEY,
       value: JSON.stringify(journalEntries.value)
     });
   };
   watch(journalEntries, cacheEntries);
+  // load saved journalEntries on mount
+  const loadSaved = async () => {
+    const journalList = await Preferences.get({ key: JOURNAL_KEY });
+    journalEntries.value = journalList.value ? JSON.parse(journalList.value) : [];
+  }
+  onMounted(loadSaved);
   
   const saveEntry = async (newEntry: JournalEntry) => {
     newEntry.dirname = `entry${journalEntries.value.length}`;
