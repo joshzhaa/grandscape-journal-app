@@ -5,6 +5,7 @@ import { Preferences } from '@capacitor/preferences';
 import { isPlatform } from '@ionic/vue';
 import { Capacitor } from '@capacitor/core';
 
+// for saving non-text encoded data
 const convertBlobToBase64 = (blob: Blob) =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
