@@ -94,8 +94,13 @@
   import { create } from 'ionicons/icons';
   import { OverlayEventDetail } from '@ionic/core/components';
   import { ref } from 'vue';
+  
+  import {
+    useJournalEntries,
+    JournalEntry,
+  } from '@/lib/useJournalEntries';
 
-  const journalEntries = ref([{ date: '1/1/1990', title: 'Welcome to Grandscape' }]);
+  const { journalEntries, saveEntry } = useJournalEntries();
 
   // supports the modal composition menu
   const modal = ref();
@@ -106,12 +111,12 @@
   const cancel = () => modal.value.$el.dismiss(null, 'cancel');
 
   const confirm = () => {
-    const newEntry = {};
-    newEntry.date = date.value.$el.value;
-    newEntry.title = title.value.$el.value;
-    journalEntries.value = [newEntry, ...journalEntries.value];
-    const name = title.value.$el.value;
-    modal.value.$el.dismiss(name, 'confirm');
+    const newEntry: JournalEntry = {
+      date: date.value.$el.value,
+      title: title.value.$el.value,
+    };
+    saveEntry(newEntry);
+    modal.value.$el.dismiss(title.value.$el.value, 'confirm');
   };
 
 </script>
