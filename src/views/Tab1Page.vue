@@ -36,10 +36,11 @@
             placeholder="Main body of your journal entry"
             :auto-grow="true"
             rows="10"
-            ref="body"
+            id="body-input"
           ></ion-textarea>
         </ion-item>
 
+        <div style="height:75px"></div>
 
         <ion-fab vertical="bottom" horizontal="center" slot="fixed">
           <ion-fab-button @click="alert()">
@@ -49,8 +50,19 @@
 
       </ion-list>
 
-      <ion-button @click="confirm()" vertical="bottom" shape="round" expand="full">Confirm</ion-button>
+      <ion-button id="confirm-button"
+        @click="confirm()"
+        vertical="bottom"
+        shape="round"
+        expand="full"
+      >Save Journal Entry</ion-button>
+
     </ion-content>
+
+    <ion-alert
+      trigger="confirm-button"
+      header="Journal Entry Saved"
+    ></ion-alert>
 
   </ion-page>
 </template>
@@ -72,6 +84,7 @@
     IonTextarea,
     IonFab,
     IonFabButton,
+    IonAlert,
   } from '@ionic/vue';
 
   import { create, camera } from 'ionicons/icons';
@@ -85,19 +98,22 @@
 
   const { journalEntries, saveEntry } = useJournalEntries();
 
-  // supports the modal composition menu
   const title = ref();
   const date = ref();
-  const body = ref();
+  const addedPhotos = [];
 
   const confirm = () => {
-    console.log(title.value, body.value.value);
+    const body = document.getElementById('body-input');
     const newEntry: JournalEntry = {
       date: date.value,
       title: title.value,
-      body: body.value.value,
+      body: body.value,
     };
-    saveEntry(newEntry);
+    saveEntry(newEntry, []);
+    // clear the fields
+    document.querySelectorAll('ion-input, ion-textarea').forEach((element) => {
+      element.value = '';
+    });
   };
 
 </script>
