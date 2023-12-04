@@ -43,7 +43,7 @@
         <div style="height:75px"></div>
 
         <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-          <ion-fab-button @click="alert()">
+          <ion-fab-button @click="pickPhotos()">
             <ion-icon :icon="camera"></ion-icon>
           </ion-fab-button>
         </ion-fab>
@@ -96,12 +96,16 @@
     JournalEntry,
   } from '@/lib/useJournalEntries';
 
+  import {
+    usePhotos,
+  } from '@/lib/usePhotos';
+
   const { journalEntries, saveEntry } = useJournalEntries();
+  let { photos, pickPhotos } = usePhotos();
 
   const title = ref();
   const date = ref();
-  const addedPhotos = [];
-
+  
   const confirm = () => {
     const body = document.getElementById('body-input');
     const newEntry: JournalEntry = {
@@ -109,11 +113,12 @@
       title: title.value,
       body: body.value,
     };
-    saveEntry(newEntry, []);
+    saveEntry(newEntry, photos);
     // clear the fields
     document.querySelectorAll('ion-input, ion-textarea').forEach((element) => {
       element.value = '';
     });
+    photos = [];
   };
 
 </script>
