@@ -61,7 +61,7 @@
 
     <ion-alert
       trigger="confirm-button"
-      header="Journal Entry Saved"
+      header="Successfully Saved!"
     ></ion-alert>
 
   </ion-page>
@@ -87,9 +87,8 @@
     IonAlert,
   } from '@ionic/vue';
 
-  import { create, camera } from 'ionicons/icons';
-  import { OverlayEventDetail } from '@ionic/core/components';
   import { ref } from 'vue';
+  import { create, camera } from 'ionicons/icons';
   
   import {
     useJournalEntries,
