@@ -18,7 +18,7 @@ const convertBlobToBase64 = (blob: Blob) =>
 
 export interface JournalEntry {
   dirname: string;
-  media: string[];
+  photos: string[];
   title: string;
   date: string;
   body: string;
@@ -42,19 +42,18 @@ export const useJournalEntries = () => {
   }
   onMounted(loadSaved);
   
-  const saveEntry = async (newEntry: JournalEntry) => {
+  const saveEntry = async (newEntry: JournalEntry, imagePaths: string[]) => {
     newEntry.dirname = `entry${journalEntries.value.length}`;
+    newEntry.photos = [...imagePaths];
     journalEntries.value = [newEntry, ...journalEntries.value];
 
-    console.log(journalEntries.value);
-    console.log(newEntry);
     // write to device Filesystem
     await Filesystem.writeFile({
       path: `${newEntry.dirname}/metadata.json`,
       data: JSON.stringify({
         title: newEntry.title,
         date: newEntry.date,
-        media: newEntry.media,
+        photos: newEntry.photos,
       }),
       directory: Directory.Documents,
       encoding: Encoding.UTF8,

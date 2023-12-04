@@ -8,12 +8,6 @@
     </ion-header>
 
     <ion-content :fullscreen="true" color="light">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Journal</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <ion-list>
         <ion-item>
           <ion-input
