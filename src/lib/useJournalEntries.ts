@@ -44,8 +44,8 @@ export const useJournalEntries = () => {
   const saveEntry = async (newEntry: JournalEntry, imagePaths: string[]) => {
     newEntry.dirname = `entry${journalEntries.value.length}`;
     newEntry.photos = [...imagePaths];
+    console.log(newEntry)
     journalEntries.value = [newEntry, ...journalEntries.value];
-    console.log(journalEntries);
 
     // write to device Filesystem
     await Filesystem.writeFile({

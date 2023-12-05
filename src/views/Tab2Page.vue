@@ -8,14 +8,14 @@
 
     <ion-content :fullscreen="true">
       <ion-card v-for="entry in journalEntries">
-        <!--<img v-if="entry.photos.length > 0" src="entry.photos[0]"/>-->
+        <img v-if="entry.photos.length > 0" :src="entry.photos[0]"/>
 
         <ion-card-header>
           <ion-card-title>{{ entry.title }}</ion-card-title>
           <ion-card-subtitle>{{ entry.date }}</ion-card-subtitle>
         </ion-card-header>
 
-        <ion-card-content>{{ entry.body }}</ion-card-content>
+        <ion-card-content>{{ entry.body }}{{ JSON.stringify(entry.photos) }}</ion-card-content>
       </ion-card>
     </ion-content>
   </ion-page>
