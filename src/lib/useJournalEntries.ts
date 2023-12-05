@@ -16,6 +16,7 @@ const convertBlobToBase64 = (blob: Blob) =>
   });
 
 export interface JournalEntry {
+  id: number;
   dirname: string;
   photos: string[];
   title: string;
@@ -42,7 +43,8 @@ export const useJournalEntries = () => {
   onMounted(loadSaved);
   
   const saveEntry = async (newEntry: JournalEntry, imagePaths: string[]) => {
-    newEntry.dirname = `entry${journalEntries.value.length}`;
+    newEntry.id = journalEntries.value.length;
+    newEntry.dirname = `entry${newEntry.id}`;
     newEntry.photos = [...imagePaths];
     console.log(newEntry)
     journalEntries.value = [newEntry, ...journalEntries.value];

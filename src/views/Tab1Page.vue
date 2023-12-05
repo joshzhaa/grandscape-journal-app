@@ -90,18 +90,11 @@
   import { ref } from 'vue';
   import { create, camera } from 'ionicons/icons';
   
-  import {
-    useJournalEntries,
-    JournalEntry,
-  } from '@/lib/useJournalEntries';
+  import { useJournalEntries, JournalEntry } from '@/lib/useJournalEntries';
 
-  import {
-    usePhotos,
-    addPhotos,
-  } from '@/lib/usePhotos';
+  import { addPhotos } from '@/lib/usePhotos';
 
   const { journalEntries, saveEntry } = useJournalEntries();
-  // let { photos, pickPhotos } = usePhotos();
   let photos = [];
 
   const title = ref();
