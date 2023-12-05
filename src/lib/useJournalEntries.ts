@@ -1,6 +1,5 @@
 import { ref, onMounted, watch } from 'vue';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
-import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Preferences } from '@capacitor/preferences';
 import { isPlatform } from '@ionic/vue';
 import { Capacitor } from '@capacitor/core';
@@ -17,8 +16,9 @@ const convertBlobToBase64 = (blob: Blob) =>
   });
 
 export interface JournalEntry {
+  id: number;
   dirname: string;
-  media: string[];
+  photos: string[];
   title: string;
   date: string;
   body: string;
@@ -42,8 +42,11 @@ export const useJournalEntries = () => {
   }
   onMounted(loadSaved);
   
-  const saveEntry = async (newEntry: JournalEntry) => {
-    newEntry.dirname = `entry${journalEntries.value.length}`;
+  const saveEntry = async (newEntry: JournalEntry, imagePaths: string[]) => {
+    newEntry.id = journalEntries.value.length;
+    newEntry.dirname = `entry${newEntry.id}`;
+    newEntry.photos = [...imagePaths];
+    console.log(newEntry)
     journalEntries.value = [newEntry, ...journalEntries.value];
 
     // write to device Filesystem
@@ -52,7 +55,7 @@ export const useJournalEntries = () => {
       data: JSON.stringify({
         title: newEntry.title,
         date: newEntry.date,
-        media: newEntry.media,
+        photos: newEntry.photos,
       }),
       directory: Directory.Documents,
       encoding: Encoding.UTF8,
